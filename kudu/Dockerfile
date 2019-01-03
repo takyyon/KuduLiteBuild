@@ -14,7 +14,7 @@ RUN echo "deb http://ftp.debian.org/debian jessie-backports main" >> /etc/apt/so
 # SQL Server gem support
 RUN apt-get install -y unixodbc-dev freetds-dev freetds-bin 
 
-COPY TunnelExtension.zip webssh.zip ssh /tmp/
+COPY webssh.zip ssh /tmp/
 
 # Install Kudu
 RUN mkdir -p /opt/Kudu/local \
