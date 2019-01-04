@@ -1,4 +1,4 @@
-FROM oryxprod/build:20181220.1 as main
+FROM oryxprod/build:20181222.1 as main
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -49,23 +49,27 @@ ENV PATH=$PATH:/root/.dotnet/tools
 RUN cd /tmp \
     && git clone https://github.com/Azure-App-Service/KuduLite.git \
     && cd ./KuduLite \
+    && git fetch \
+    && git checkout coderefactoring \
     && cd ./Kudu.Services.Web \
     && dotnet publish -c Release -o /opt/Kudu \
     && chmod 777 /opt/Kudu/Kudu.Services.Web.dll \
     && rm -rf /tmp/*             
 
+# Trigger the population of the local package cache
+RUN mkdir warmup \
+&& cd warmup \
+&& dotnet new mvc --auth Individual \
+&& cd .. \
+&& rm -rf warmup \
+&& rm -rf /tmp/NuGetScratch
+
 COPY startup.sh /
 
 RUN chmod 777 /startup.sh
 
-#required for kudu
-RUN ln -s /opt/nodejs/8.11.2/lib/node_modules/npm/bin/npm-cli.js /usr/bin/npm-cli.js
-
-RUN npm install -g kudusync
-RUN npm install pm2@latest -g
-
-#required for kudusync
-ENV PATH=$PATH:/opt/nodejs/8.11.2/bin 
+RUN benv node=9 npm=6 npm install -g kudusync
+RUN benv node=9 npm=6 npm install pm2@latest -g
 
 EXPOSE 8181
 

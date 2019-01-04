@@ -15,10 +15,7 @@ useradd -u $USER_ID -g $GROUP_NAME $USER_NAME
 chown -R $USER_NAME:$GROUP_NAME /tmp
 mkdir -p /home/LogFiles/webssh
 
-/bin/bash -c "pm2 start /opt/webssh/index.js -o /home/LogFiles/webssh/pm2.log -e /home/LogFiles/webssh/pm2.err &"
-
-#chmod 777 /opt/tunnelext/tunnelwatcher.sh
-#/bin/bash -c "/opt/tunnelext/tunnelwatcher.sh dotnet /opt/tunnelext/DebugExtension.dll &"
+/bin/bash -c "benv node=9 npm=6 pm2 start /opt/webssh/index.js -o /home/LogFiles/webssh/pm2.log -e /home/LogFiles/webssh/pm2.err &"
 
 export KUDU_RUN_USER="$USER_NAME"
 export HOME=/home
@@ -30,6 +27,5 @@ export APPDATA=/opt/Kudu/local
 
 cd /opt/Kudu
 
-echo $(date) running .net
+echo $(date) running .net core
 ASPNETCORE_URLS=http://0.0.0.0:8181 runuser -p -u "$USER_NAME" -- dotnet Kudu.Services.Web.dll
-
