@@ -54,14 +54,6 @@ RUN cd /tmp \
     && chmod 777 /opt/Kudu/Kudu.Services.Web.dll \
     && rm -rf /tmp/*             
 
-# Trigger the population of the local package cache
-RUN mkdir warmup \
-&& cd warmup \
-&& dotnet new mvc --auth Individual \
-&& cd .. \
-&& rm -rf warmup \
-&& rm -rf /tmp/NuGetScratch
-
 COPY startup.sh /
 
 RUN chmod 777 /startup.sh
