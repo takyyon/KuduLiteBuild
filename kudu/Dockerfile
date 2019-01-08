@@ -61,6 +61,9 @@ RUN chmod 777 /startup.sh
 RUN benv node=9 npm=6 npm install -g kudusync
 RUN benv node=9 npm=6 npm install pm2@latest -g
 
+RUN ln -s /opt/nodejs/9/lib/node_modules/npm/bin/npm-cli.js /usr/bin/npm-cli.js
+ENV PATH=$PATH:/opt/nodejs/9/bin 
+
 EXPOSE 8181
 
 ENTRYPOINT [ "/startup.sh" ]
