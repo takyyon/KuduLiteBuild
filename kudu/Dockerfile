@@ -1,4 +1,4 @@
-FROM oryxprod/build:20190104.3 as main
+FROM oryxprod/build:20190109.4 as main
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -49,6 +49,7 @@ ENV PATH=$PATH:/root/.dotnet/tools
 RUN cd /tmp \
     && git clone https://github.com/Azure-App-Service/KuduLite.git \
     && cd ./KuduLite \
+    && git checkout Jan19-Release \
     && cd ./Kudu.Services.Web \
     && dotnet publish -c Release -o /opt/Kudu \
     && chmod 777 /opt/Kudu/Kudu.Services.Web.dll \
