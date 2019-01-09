@@ -28,4 +28,4 @@ export APPDATA=/opt/Kudu/local
 cd /opt/Kudu
 
 echo $(date) running .net core
-ASPNETCORE_URLS=http://0.0.0.0:8181 runuser -p -u "$USER_NAME" -- dotnet Kudu.Services.Web.dll
+ASPNETCORE_URLS=http://0.0.0.0:8181 runuser -p -u "$USER_NAME" -- benv dotnet=2.2 dotnet Kudu.Services.Web.dll
