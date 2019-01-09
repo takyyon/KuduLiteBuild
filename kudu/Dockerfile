@@ -1,4 +1,4 @@
-FROM oryxprod/build:20190109.4 as main
+FROM oryxdevms/build:20190109.4 as main
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -51,7 +51,7 @@ RUN cd /tmp \
     && cd ./KuduLite \
     && git checkout Jan19-Release \
     && cd ./Kudu.Services.Web \
-    && benv dotnet=2.2 dotnet publish -c Release -o /opt/Kudu \
+    && dotnet publish -c Release -o /opt/Kudu \
     && chmod 777 /opt/Kudu/Kudu.Services.Web.dll \
     && rm -rf /tmp/*             
 
