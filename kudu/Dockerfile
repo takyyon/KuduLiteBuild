@@ -51,7 +51,7 @@ RUN cd /tmp \
     && cd ./KuduLite \
     && git checkout user/jennylaw/dev-march-release \
     && cd ./Kudu.Services.Web \
-    && dotnet publish -c Release -o /opt/Kudu \
+    && benv dotnet=2.2 dotnet publish -c Release -o /opt/Kudu \
     && chmod 777 /opt/Kudu/Kudu.Services.Web.dll \
     && rm -rf /tmp/*             
 
