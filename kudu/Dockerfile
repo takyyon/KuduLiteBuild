@@ -51,7 +51,7 @@ RUN cd /opt/dotnet && unlink lts && ln -s 2.2 /opt/dotnet/lts
 RUN cd /tmp \
     && git clone https://github.com/Azure-App-Service/KuduLite.git \
     && cd ./KuduLite \
-    && git checkout user/jennylaw/dev-march-release \
+    && git checkout dev \
     && cd ./Kudu.Services.Web \
     && dotnet publish -c Release -o /opt/Kudu \
     && chmod 777 /opt/Kudu/Kudu.Services.Web.dll \
