@@ -1,4 +1,4 @@
-FROM oryxprod/build:20190109.6 as main
+FROM oryxprod/build:20190306.3 as main
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -45,11 +45,13 @@ ENV NUGET_XMLDOC_MODE=skip
 RUN dotnet tool install -g dotnet-aspnet-codegenerator 
 ENV PATH=$PATH:/root/.dotnet/tools
 
+RUN cd /opt/dotnet && unlink lts && ln -s 2.2 /opt/dotnet/lts
+
 #Instal Kudu
 RUN cd /tmp \
     && git clone https://github.com/Azure-App-Service/KuduLite.git \
     && cd ./KuduLite \
-    && git checkout Jan19-Release \
+    && git checkout dev \
     && cd ./Kudu.Services.Web \
     && dotnet publish -c Release -o /opt/Kudu \
     && chmod 777 /opt/Kudu/Kudu.Services.Web.dll \
