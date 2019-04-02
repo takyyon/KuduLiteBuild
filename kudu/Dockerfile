@@ -3,13 +3,20 @@ FROM oryxprod/build:20190306.3 as main
 ENV DEBIAN_FRONTEND noninteractive
 
 # Install dependencies
-RUN echo "deb http://ftp.debian.org/debian jessie-backports main" >> /etc/apt/sources.list \
-  && apt-get update \
+RUN apt-get update \
   && apt-get install -y openssh-client --no-install-recommends \
   && apt-get install -y vim tree --no-install-recommends \
   && apt-get install -y tcptraceroute \
   && wget -O /usr/bin/tcpping http://www.vdberg.org/~richard/tcpping \
   && chmod 755 /usr/bin/tcpping 
+
+# Enable SSH for Kudu Console
+RUN apt-get install -y ssh \
+   && sed -i '/^#Port* /s/^#//' /etc/ssh/sshd_config \
+   && sed -i '/^#PermitRootLogin* /s/^#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config \
+   && sed -i '/^#PrintLastLog* /s/^#PrintLastLog yes/PrintLastLog no/' /etc/ssh/sshd_config \
+   && chmod -R 0644 /etc/update-motd.d/ \
+   && echo "root:Docker!" | chpasswd 
 
 # SQL Server gem support
 RUN apt-get install -y unixodbc-dev freetds-dev freetds-bin 
@@ -32,7 +39,7 @@ RUN mkdir -p /opt/Kudu/local \
   && chown root:root /usr/bin/ssh \
   && chmod 755 /usr/bin/ssh \
   && chmod -R 777 /home \
-  && rm -rf /tmp/*
+  && rm -rf /tmp/* 
 
 ENV DOTNET_RUNNING_IN_CONTAINER=true
 

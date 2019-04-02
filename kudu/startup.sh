@@ -1,4 +1,24 @@
 #!/bin/bash
+
+#!/usr/bin/env bash
+
+cat >/etc/motd <<EOL
+    __ __          __      __    _ __     
+   / //_/_  _ ____/ /_  __/ /   (_) /____ 
+  / ,< / / / / __  / / / / /   / / __/ _ \
+ 
+ / /| / /_/ / /_/ / /_/ / /___/ / /_/  __/
+/_/ |_\__,_/\__,_/\__,_/_____/_/\__/\___/ 
+
+                                          
+DEBUG CONSOLE | AZURE APP SERVICE ON LINUX
+
+Documentation: http://aka.ms/webapp-linux
+Kudu Version : 1.0.0.6
+
+EOL
+cat /etc/motd
+
 if [ $# -ne 5 ]; then
 	echo "Missing parameters; exiting"
 	exit 1
@@ -28,6 +48,7 @@ export APPSETTING_SCM_USE_LIBGIT2SHARP_REPOSITORY=0
 export KUDU_APPPATH=/opt/Kudu
 export APPDATA=/opt/Kudu/local
 
+service ssh restart
 
 cd /opt/Kudu
 
