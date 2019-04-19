@@ -48,6 +48,9 @@ export APPSETTING_SCM_USE_LIBGIT2SHARP_REPOSITORY=0
 export KUDU_APPPATH=/opt/Kudu
 export APPDATA=/opt/Kudu/local
 
+# Get environment variables to show up in SSH session
+eval $(printenv | awk -F= '{print "export " $1"="$2 }' >> /etc/profile)
+
 service ssh restart
 
 cd /opt/Kudu
