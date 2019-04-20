@@ -1,4 +1,4 @@
-FROM oryxprod/build:20190401.5 as main
+FROM oryxprod/build:20190420.8 as main
 
 ENV DEBIAN_FRONTEND noninteractive
 
