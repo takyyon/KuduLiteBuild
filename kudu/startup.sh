@@ -1,10 +1,29 @@
 #!/bin/bash
+
+#!/usr/bin/env bash
+
+cat >/etc/motd <<EOL
+    __ __          __      __    _ __     
+   / //_/_  _ ____/ /_  __/ /   (_) /____ 
+  / ,< / / / / __  / / / / /   / / __/ _ \
+ 
+ / /| / /_/ / /_/ / /_/ / /___/ / /_/  __/
+/_/ |_\__,_/\__,_/\__,_/_____/_/\__/\___/ 
+
+                                          
+DEBUG CONSOLE | AZURE APP SERVICE ON LINUX
+
+Documentation: http://aka.ms/webapp-linux
+Kudu Version : 1.0.0.6
+
+EOL
+cat /etc/motd
+
 if [ $# -ne 5 ]; then
 	echo "Missing parameters; exiting"
 	exit 1
 fi
 
-=======
 if [ -z "${PORT}" ]; then
         export PORT=8181
 fi
@@ -29,8 +48,12 @@ export APPSETTING_SCM_USE_LIBGIT2SHARP_REPOSITORY=0
 export KUDU_APPPATH=/opt/Kudu
 export APPDATA=/opt/Kudu/local
 
+# Get environment variables to show up in SSH session
+eval $(printenv | awk -F= '{print "export " $1"="$2 }' >> /etc/profile)
+
+service ssh restart
 
 cd /opt/Kudu
 
 echo $(date) running .net core
-ASPNETCORE_URLS=http://0.0.0.0:8181 runuser -p -u "$USER_NAME" -- dotnet Kudu.Services.Web.dll
+ASPNETCORE_URLS=http://0.0.0.0:"$PORT" runuser -p -u "$USER_NAME" -- dotnet Kudu.Services.Web.dll
