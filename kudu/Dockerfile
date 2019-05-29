@@ -56,9 +56,9 @@ RUN cd /opt/dotnet && unlink lts && ln -s 2.2 /opt/dotnet/lts
 
 #Instal Kudu
 RUN cd /tmp \
-    && git clone https://github.com/Azure-App-Service/KuduLite.git \
+    && git clone https://github.com/ppvasude/KuduLite.git \
     && cd ./KuduLite \
-    && git checkout master \
+    && git checkout user/t-puvasu/scan \
     && cd ./Kudu.Services.Web \
     && dotnet publish -c Release -o /opt/Kudu \
     && chmod 777 /opt/Kudu/Kudu.Services.Web.dll \
@@ -75,6 +75,15 @@ RUN ln -s /opt/nodejs/9/lib/node_modules/npm/bin/npm-cli.js /usr/bin/npm-cli.js
 ENV PATH=$PATH:/opt/nodejs/9/bin 
 
 EXPOSE 8181
+
+# Install ClamAV
+RUN apt-get install -y clamav
+RUN freshclam
+
+# Copy custom scripts
+RUN mkdir /custom_scripts
+COPY custom_scripts/* /custom_scripts/
+RUN chmod 755 /custom_scripts/*
 
 ENTRYPOINT [ "/startup.sh" ]
 CMD [ "1002", "kudu_group", "1001", "kudu_user", "localsite" ]
