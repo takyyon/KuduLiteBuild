@@ -1,4 +1,4 @@
-FROM oryxprod/build:20190420.8 as main
+FROM oryxprod/build:20190521.9 as main
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -41,6 +41,9 @@ RUN mkdir -p /opt/Kudu/local \
   && chmod -R 777 /home \
   && rm -rf /tmp/* 
 
+# Default WebSSH App Port
+ENV KUDU_WEBSSH_PORT="3000"
+
 ENV DOTNET_RUNNING_IN_CONTAINER=true
 
 # Enable correct mode for dotnet watch (only mode supported in a container)
@@ -62,7 +65,9 @@ RUN cd /tmp \
     && cd ./Kudu.Services.Web \
     && dotnet publish -c Release -o /opt/Kudu \
     && chmod 777 /opt/Kudu/Kudu.Services.Web.dll \
-    && rm -rf /tmp/*             
+    && rm -rf /tmp/* \
+    && chmod a+rw /var/nuget \
+    && find /var/nuget -type d -exec chmod 777 {} \;
 
 COPY startup.sh /
 
