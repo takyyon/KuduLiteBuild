@@ -41,6 +41,9 @@ RUN mkdir -p /opt/Kudu/local \
   && chmod -R 777 /home \
   && rm -rf /tmp/* 
 
+# Default WebSSH App Port
+ENV KUDU_WEBSSH_PORT="3000"
+
 ENV DOTNET_RUNNING_IN_CONTAINER=true
 
 # Enable correct mode for dotnet watch (only mode supported in a container)
