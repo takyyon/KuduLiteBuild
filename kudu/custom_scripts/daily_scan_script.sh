@@ -7,6 +7,11 @@ DIRTOSCAN="$1";
 
 clamscan -r $DIRTOSCAN >> $LOGFILE;
 
-echo "The script has finished.";
+#clamAV error exit code
+if [ $? -eq 2]
+then
+	exit 1;
+else
+	exit 0;
+fi
 
-exit 0
