@@ -8,7 +8,9 @@ RUN apt-get update \
   && apt-get install -y vim tree --no-install-recommends \
   && apt-get install -y tcptraceroute \
   && wget -O /usr/bin/tcpping http://www.vdberg.org/~richard/tcpping \
-  && chmod 755 /usr/bin/tcpping 
+  && chmod 755 /usr/bin/tcpping
+  && apt-get install -y clamav
+  && freshclam
 
 # Enable SSH for Kudu Console
 RUN apt-get install -y ssh \
@@ -56,9 +58,9 @@ RUN cd /opt/dotnet && unlink lts && ln -s 2.2 /opt/dotnet/lts
 
 #Instal Kudu
 RUN cd /tmp \
-    && git clone https://github.com/ppvasude/KuduLite.git \
+    && git clone https://github.com/Azure-App-Service/KuduLite.git \
     && cd ./KuduLite \
-    && git checkout user/t-puvasu/scan \
+    && git checkout dev \
     && cd ./Kudu.Services.Web \
     && dotnet publish -c Release -o /opt/Kudu \
     && chmod 777 /opt/Kudu/Kudu.Services.Web.dll \
@@ -75,10 +77,6 @@ RUN ln -s /opt/nodejs/9/lib/node_modules/npm/bin/npm-cli.js /usr/bin/npm-cli.js
 ENV PATH=$PATH:/opt/nodejs/9/bin 
 
 EXPOSE 8181
-
-# Install ClamAV
-RUN apt-get install -y clamav
-RUN freshclam
 
 # Copy custom scripts
 RUN mkdir /custom_scripts
