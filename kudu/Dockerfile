@@ -11,6 +11,8 @@ RUN apt-get update \
   && apt-get install -y squashfs-tools \
   && wget -O /usr/bin/tcpping http://www.vdberg.org/~richard/tcpping \
   && chmod 755 /usr/bin/tcpping
+  && apt-get install -y clamav
+  && freshclam
 
 # Enable SSH for Kudu Console
 RUN apt-get install -y ssh \
@@ -77,6 +79,11 @@ RUN ln -s /opt/nodejs/9/lib/node_modules/npm/bin/npm-cli.js /usr/bin/npm-cli.js
 ENV PATH=$PATH:/opt/nodejs/9/bin
 
 EXPOSE 8181
+
+# Copy custom scripts
+RUN mkdir /custom_scripts
+COPY custom_scripts/* /custom_scripts/
+RUN chmod 755 /custom_scripts/*
 
 ENTRYPOINT [ "/startup.sh" ]
 CMD [ "1002", "kudu_group", "1001", "kudu_user", "localsite" ]
