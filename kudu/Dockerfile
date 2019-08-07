@@ -10,8 +10,8 @@ RUN apt-get update \
 # Install Squashfs tools for KuduLite build
   && apt-get install -y squashfs-tools \
   && wget -O /usr/bin/tcpping http://www.vdberg.org/~richard/tcpping \
-  && chmod 755 /usr/bin/tcpping
-  && apt-get install -y clamav
+  && chmod 755 /usr/bin/tcpping \
+  && apt-get install -y clamav \
   && freshclam
 
 # Enable SSH for Kudu Console
