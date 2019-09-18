@@ -1,0 +1,21 @@
+trigger:
+- dev
+pr:
+  branches:
+    exclude:
+    - '*'
+
+jobs:
+- job:
+  pool:
+    vmImage: 'ubuntu-latest'
+  timeoutInMinutes: 360
+  displayName: 'Running test'
+  steps:
+  - bash: |
+      docker login -u patle -p $DOCKER_PASSWORD
+      docker build -t appsvctest/kudulite:dev kudu
+      docker push appsvctest/kudulite:dev 
+    env: 
+      DOCKER_PASSWORD: $(DockerPassword)
+      
