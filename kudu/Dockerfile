@@ -1,5 +1,5 @@
 FROM appsvctest/kudu-ruby AS RUBY
-FROM mcr.microsoft.com/oryx/build:20190828.1 as main
+FROM mcr.microsoft.com/oryx/build:20190924.3 as main
 
 # Ruby installations
 RUN apt-get update \
@@ -7,6 +7,9 @@ RUN apt-get update \
   curl patch gawk g++ gcc git make libc6-dev patch libreadline6-dev libyaml-dev sqlite3 autoconf \
   libgdbm-dev libncurses5-dev automake libtool bison pkg-config libffi-dev bison libxslt-dev \
   libxml2-dev default-libmysqlclient-dev wget unixodbc-dev freetds-dev freetds-bin --no-install-recommends
+
+RUN wget security-cdn.debian.org/debian-security/pool/updates/main/o/openssl/libssl1.0.0_1.0.1t-1+deb8u11_amd64.deb \
+  && dpkg -i libssl1.0.0_1.0.1t-1+deb8u11_amd64.deb
 
 # rbenv
 ENV RBENV_ROOT="/usr/local/.rbenv"
@@ -77,7 +80,7 @@ ENV DOTNET_USE_POLLING_FILE_WATCHER=true
 # Skip extraction of XML docs - generally not useful within an image/container - helps performance
 ENV NUGET_XMLDOC_MODE=skip
 
-RUN dotnet tool install -g dotnet-aspnet-codegenerator
+RUN dotnet tool install -g --version 2.2 dotnet-aspnet-codegenerator
 ENV PATH=$PATH:/root/.dotnet/tools
 
 #Install Kudu
