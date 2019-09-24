@@ -1,5 +1,5 @@
 FROM appsvctest/kudu-ruby AS RUBY
-FROM mcr.microsoft.com/oryx/build:20190924.3 as main
+FROM mcr.microsoft.com/oryx/build:20190924.1 as main
 
 # Ruby installations
 RUN apt-get update \
