@@ -1,4 +1,4 @@
-FROM buildpack-deps:stretch-curl
+FROM buildpack-deps:jessie-curl
 
 # Ruby installations
 
@@ -7,7 +7,7 @@ RUN apt-get update \
   && apt-get install -y libreadline-dev bzip2 build-essential libssl-dev zlib1g-dev libpq-dev libsqlite3-dev \
   curl patch gawk g++ gcc git make libc6-dev patch libreadline6-dev libyaml-dev sqlite3 autoconf \
   libgdbm-dev libncurses5-dev automake libtool bison pkg-config libffi-dev bison libxslt-dev \
-  libxml2-dev default-libmysqlclient-dev wget unixodbc-dev freetds-dev freetds-bin --no-install-recommends
+  libxml2-dev libmysqlclient-dev wget unixodbc-dev freetds-dev freetds-bin --no-install-recommends
 
 # rbenv
 RUN git clone https://github.com/rbenv/rbenv.git /usr/local/.rbenv
@@ -27,7 +27,6 @@ ENV RUBY_CONFIGURE_OPTS=--disable-install-doc
 
 ENV RUBY_CFLAGS=-O3
 
-RUN apt-get install -y libssl1.0-dev
 RUN eval "$(rbenv init -)" \
   && export WEBSITES_DEFAULT_RUBY_VERSION="2.3.3" \
   && rbenv install $WEBSITES_DEFAULT_RUBY_VERSION \
@@ -58,6 +57,3 @@ RUN eval "$(rbenv init -)" \
 
 # Because Nokogiri tries to build libraries on its own otherwise
 ENV NOKOGIRI_USE_SYSTEM_LIBRARIES=true
-
-# SQL Server gem support
-RUN apt-get install -y 
