@@ -3,13 +3,10 @@ FROM mcr.microsoft.com/oryx/build:20190924.1 as main
 
 # Ruby installations
 RUN apt-get update \
-  && apt-get install -y libreadline-dev bzip2 build-essential libssl-dev zlib1g-dev libpq-dev libsqlite3-dev \
+  && apt-get install -y libreadline-dev bzip2 build-essential libssl-dev libssl1.0-dev zlib1g-dev libpq-dev libsqlite3-dev \
   curl patch gawk g++ gcc git make libc6-dev patch libreadline6-dev libyaml-dev sqlite3 autoconf \
   libgdbm-dev libncurses5-dev automake libtool bison pkg-config libffi-dev bison libxslt-dev \
   libxml2-dev default-libmysqlclient-dev wget unixodbc-dev freetds-dev freetds-bin --no-install-recommends
-
-RUN wget security-cdn.debian.org/debian-security/pool/updates/main/o/openssl/libssl1.0.0_1.0.1t-1+deb8u11_amd64.deb \
-  && dpkg -i libssl1.0.0_1.0.1t-1+deb8u11_amd64.deb
 
 # rbenv
 ENV RBENV_ROOT="/usr/local/.rbenv"
