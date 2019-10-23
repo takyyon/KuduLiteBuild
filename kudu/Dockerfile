@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/oryx/build:20191004.5 as main
+FROM mcr.microsoft.com/oryx/build:20191018.1 as main
 
 ENV DEBIAN_FRONTEND noninteractive
 
