@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/oryx/build:20191018.1 as main
+FROM mcr.microsoft.com/oryx/build:20191216.3 as main
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -21,7 +21,7 @@ RUN chmod -R 777 /usr/local/.rbenv/plugins/ruby-build
 
 RUN /usr/local/.rbenv/plugins/ruby-build/install.sh
 
-# Install ruby 2.3.3 (default), 2.3.8, 2.4.5
+# Install ruby 2.3.3, 2.3.8, 2.4.5, 2.5.5, 2.6.2
 ENV RUBY_CONFIGURE_OPTS=--disable-install-doc
 
 ENV RUBY_CFLAGS=-O3
@@ -114,7 +114,7 @@ RUN echo September Release.....
 RUN cd /tmp \
     && git clone https://github.com/Azure-App-Service/KuduLite.git \
     && cd ./KuduLite \
-    && git checkout user/sanmeht/KuduCOnsoleLog4Net \
+    && git checkout dev \
     && git log --format="%H" -n 1 > /kudu_commit.log \
     && cd ./Kudu.Services.Web \
     && benv dotnet=2.2 dotnet publish -c Release -o /opt/Kudu \
