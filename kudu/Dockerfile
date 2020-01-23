@@ -112,7 +112,7 @@ ENV PATH=$PATH:/root/.dotnet/tools
 RUN echo September Release.....
 #Install Kudu
 RUN cd /tmp \
-    && git clone https://github.com/Azure-App-Service/KuduLite.git \
+    && git clone https://github.com/takyyon/KuduLite.git \
     && cd ./KuduLite \
     && git checkout dev \
     && git log --format="%H" -n 1 > /kudu_commit.log \
